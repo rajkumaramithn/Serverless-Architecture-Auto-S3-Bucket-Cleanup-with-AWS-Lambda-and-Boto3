@@ -74,11 +74,17 @@ After waiting about 5 minutes, upload two more files: `new-file-1.txt` and `new-
 ## Search for and select the `AmazonS3FullAccess` policy.
 ## Click **Next**, name the role `lambda-s3-cleanup-role`, and click **Create role**.
 
-![Attaching AmazonS3FullAccess](screenshots/07-iam-attach-policy.png)
+![Creating the role](Screenshots/SAA2-9.png)
 
-![Role summary](screenshots/08-iam-role-summary.png)
+![Creating the role](Screenshots/SAA2-10.png)
 
-> **Note:** `AmazonS3FullAccess` is used here because the assignment specifies it. See [Security Considerations](#security-considerations) for a least-privilege alternative.
+![Attaching AmazonS3FullAccess](Screenshots/SAA2-11.png)
+
+![Attaching AmazonS3FullAccess](Screenshots/SAA2-12.png)
+
+![Role summary](Screenshots/SAA2-13.png)
+
+![Role summary](Screenshots/SAA2-14.png)
 
 ---
 
