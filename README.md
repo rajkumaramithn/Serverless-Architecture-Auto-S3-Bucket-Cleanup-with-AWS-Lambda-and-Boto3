@@ -40,27 +40,29 @@ A Serverless method to clean up AWS S3 Bucket using AWS Lambda &amp; Boto 3
 
 ## Open **S3** and click **Create bucket**. ## Enter a globally unique bucket name: `<YOUR-BUCKET-NAME>`. ## Keep **Block all public access** enabled and **Versioning** disabled. ## Click **Create bucket**.
 
-![Console home with region](screenshots/01-console-region.png)
+![AWS S3 Creation](Screenshots/SAA2-1.png)
 
-![Create bucket form](screenshots/02-create-bucket-form.png)
+![AWS S3 Creation](Screenshots/SAA2-2.png)
 
-![Bucket created successfully](screenshots/03-bucket-created.png)
+![AWS S3 Creation](Screenshots/SAA2-3.png)
 
 ### 1.2 Upload the first batch of files (*old* files)
 
 ## Open the bucket and click **Upload** → **Add files**.
 
-## Upload three files: `old-file-1.txt`, `old-file-2.txt`, `old-file-3.txt`.
+![Uploading the first batch](Screenshots/SAA2-4.png)
 
-![Uploading the first batch](screenshots/04-upload-old-files.png)
-
-![Bucket objects after first upload](screenshots/05-objects-first-batch.png)
+![Bucket objects after first upload](Screenshots/SAA2-5.png)
 
 ### 1.3 Upload the second batch of files (*new* files)
 
 After waiting about 5 minutes, upload two more files: `new-file-1.txt` and `new-file-2.txt`. This creates two groups of objects with clearly different `Last modified` times.
 
-![All five files with different timestamps (**BEFORE** cleanup)](screenshots/06-objects-before-cleanup.png)
+![New file upload (**BEFORE** cleanup)](Screenshots/SAA2-6.png)
+
+![New file upload (**BEFORE** cleanup)](Screenshots/SAA2-7.png)
+
+![All five files with different timestamps (**BEFORE** cleanup)](Screenshots/SAA2-8.png)
 
 ---
 
