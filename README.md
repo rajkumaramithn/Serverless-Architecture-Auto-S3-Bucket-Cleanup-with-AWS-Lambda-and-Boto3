@@ -20,7 +20,7 @@ A Serverless method to clean up AWS S3 Bucket using AWS Lambda &amp; Boto 3
 ## Architecture
 
 
-![Architecture Diagram](Screenshots/SAA2-0)
+![Architecture Diagram](Screenshots/SAA2-0.png)
 
 ---
 
