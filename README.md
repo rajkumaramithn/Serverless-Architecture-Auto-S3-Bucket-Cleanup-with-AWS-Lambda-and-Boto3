@@ -279,16 +279,6 @@ Recommendations:
 
 ---
 
-## Cleanup
-
-To avoid unnecessary charges, remove the resources after testing:
-
-## Empty and delete the S3 bucket.
-
-## Delete the Lambda function. ## Delete the IAM role `lambda-s3-cleanup-role`.
-
----
-
 ## Conclusion
 
 This project automated S3 housekeeping using a Boto3-based Lambda function. It covered creating and configuring an S3 bucket, setting up an **IAM** execution role for Lambda, writing and deploying a Python function that lists and deletes objects by age, and verifying the result through both CloudWatch logs and the S3 console.
