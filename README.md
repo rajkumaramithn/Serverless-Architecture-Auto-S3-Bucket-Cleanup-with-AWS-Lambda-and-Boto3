@@ -1,6 +1,8 @@
 # Serverless-Architecture-Auto-S3-Bucket-Cleanup-with-AWS-Lambda-and-Boto3
 A Serverless method to clean up AWS S3 Bucket using AWS Lambda &amp; Boto 3
 
+By **rajkumaramithn**
+
 
 ## Overview
 
@@ -99,9 +101,12 @@ After waiting about 5 minutes, upload two more files: `new-file-1.txt` and `new-
 4. **Execution role:** Use an existing role → `lambda-s3-cleanup-role`
 ## Click **Create function**.
 
-![Create function form](screenshots/09-lambda-create-form.png)
+![Create function form](Screenshots/SAA2-15.png)
 
-![Function overview](screenshots/10-lambda-overview.png)
+![Create function form](Screenshots/SAA2-16.png)
+
+![Create function form](Screenshots/SAA2-17.png)
+
 
 ### 3.2 Add the code
 
@@ -151,7 +156,7 @@ def lambda_handler(event, context):
     return {*deleted*: deleted, *kept*: kept}
 ```
 
-![Code deployed in the editor](screenshots/11-lambda-code-deployed.png)
+![Create function form](Screenshots/SAA2-18.png)
 
 ### 3.3 Code explanation
 
@@ -177,13 +182,17 @@ Under **Configuration** → **Environment variables**, add:
 | `BUCKET_NAME` | `<YOUR-BUCKET-NAME>` |
 | `RETENTION_DAYS` | `30` |
 
-![Environment variables](screenshots/12-lambda-env-vars.png)
+![Environment variables](Screenshots/SAA2-19.png)
+
+![Environment variables](Screenshots/SAA2-20.png)
 
 ### 3.5 Increase the timeout
 
 Under **Configuration** → **General configuration**, set **Timeout** to **30 seconds** (the 3-second default can be too short).
 
-![Timeout configuration](screenshots/13-lambda-timeout.png)
+![Timeout configuration](Screenshots/SAA2-21.png)
+
+![Timeout configuration](Screenshots/SAA2-22.png)
 
 ---
 
@@ -195,29 +204,27 @@ Create a test event named `demo-short-cutoff` with this **JSON** (adjust the num
 
 ```json { *retention_minutes*: 5 } ```
 
-![Test event configuration](screenshots/14-test-event.png)
+![Test event configuration](Screenshots/SAA2-24.png)
 
 Click **Test**. The execution succeeded and returned the deleted and kept files:
 
-![Successful execution result](screenshots/15-execution-result.png)
+![Successful execution result](Screenshots/SAA2-25.png)
 
 ### 4.2 CloudWatch logs
 
 The logs confirm which objects were deleted:
 
-![CloudWatch log stream showing deleted objects](screenshots/16-cloudwatch-logs.png)
+![CloudWatch log stream showing deleted objects](Screenshots/SAA2-26.png)
 
 ### 4.3 Verify in S3 (AFTER cleanup)
 
 After refreshing the bucket, only the newer files remain:
 
-![Bucket after cleanup](screenshots/17-objects-after-cleanup.png)
+![Bucket after cleanup](Screenshots/SAA2-27.png)
 
 ### 4.4 Default 30-day behaviour
 
-Running the function with an empty event (`{}`) uses the 30-day default. Since no file is 30 days old yet, nothing is deleted:
-
-![Default 30-day run: 0 deleted](screenshots/18-default-30-day-run.png)
+Running the function with an empty event (`{}`) uses the 30-day default. Since no file is 30 days old yet, nothing will be deleted deleted:
 
 ---
 
@@ -227,6 +234,7 @@ The assignment suggests changing the system date or using old files to get objec
 
 To demonstrate the logic anyway, the function accepts an optional `retention_minutes` value in the event payload. The cutoff logic is identical for minutes or days. With no override, the function enforces the required **30-day** retention.
 
+Hence, the testing in this particular execution demonstrated in the screenshots is between file sets that were uploaded in a 10 minute time difference from each other and the file tension in this case is set to 60 minutes.
 ---
 
 ## Security Considerations
@@ -251,7 +259,7 @@ To demonstrate the logic anyway, the function accepts an optional `retention_min
 }
 ```
 
-Other recommendations:
+Recommendations:
 
 - Test against a non-production bucket first, since deletions are permanent on unversioned buckets.
 - Consider an S3 **Lifecycle rule** for production use. It provides the same expiration natively, with no code to maintain. This project uses Lambda to practise Boto3 and serverless automation.
@@ -263,6 +271,7 @@ Other recommendations:
 | Problem | Likely cause | Fix |
 |---------|--------------|-----|
 | `AccessDenied` | Role lacks S3 permissions or is not attached to the function | Check **Configuration** → **Permissions** |
+| `AccessDenied` | Role lacks S3 permissions or is not attached to the function | Check the local machine (your machine)'s date and Sync it |
 | `NoSuchBucket` | Typo in `BUCKET_NAME` or wrong region | Verify the name and region |
 | `Task timed out` | Default 3-second timeout | Increase the timeout to 30 seconds |
 | Nothing deleted | Cutoff is shorter than the files' age, or the files are too new | Check `Last modified` times and adjust `retention_minutes` |
@@ -284,25 +293,4 @@ To avoid unnecessary charges, remove the resources after testing:
 
 This project automated S3 housekeeping using a Boto3-based Lambda function. It covered creating and configuring an S3 bucket, setting up an **IAM** execution role for Lambda, writing and deploying a Python function that lists and deletes objects by age, and verifying the result through both CloudWatch logs and the S3 console.
 
-**Possible extensions:**
 
-- Run the function daily with an **Amazon EventBridge** schedule.
-- Restrict cleanup to a prefix (e.g. `logs/`) or file type.
-- Add a dry-run mode that logs what would be deleted without deleting.
-- Send a summary notification through **Amazon **SNS****.
-- Replace the full-access policy with the least-privilege policy above.
-
----
-
-## Repository Structure
-
-```
-.
-├── **README**.md
-├── lambda_function.py
-└── screenshots/
-    ├── 01-console-region.png
-    ├── 02-create-bucket-form.png
-    ├── ...
-    └── 18-default-30-day-run.png
-```
